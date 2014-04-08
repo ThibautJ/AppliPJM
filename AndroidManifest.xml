@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.applicationfinale"
+    android:installLocation="preferExternal"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.applicationfinale.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.applicationfinale.SecuriteWindow" />
+        <activity
+            android:name="com.example.applicationfinale.ComArduino"
+            android:label="@string/title_activity_com_arduino" >
+        </activity>
+        <activity
+            android:name="com.example.applicationfinale.DomotiqueWindow"
+            android:label="@string/title_activity_domotique_window" >
+        </activity>
+        <activity
+            android:name="com.example.applicationfinale.ApplicationTransfert"
+            android:label="@string/title_activity_application_transfert" >
+        </activity>
+        <activity
+            android:name="com.example.applicationfinale.FonctionWindow"
+            android:label="@string/title_activity_fonction_window" >
+        </activity>
+        <activity
+            android:name="com.example.applicationfinale.CapteurTOR"
+            android:label="@string/title_activity_capteur_tor" >
+        </activity>
+        <activity
+            android:name="com.example.applicationfinale.Capteur"
+            android:label="@string/title_activity_capteur" >
+        </activity>
+        <activity
+            android:name="com.example.applicationfinale.Element"
+            android:label="@string/title_activity_element" >
+        </activity>
+        <activity
+            android:name="com.example.applicationfinale.Com_Arduino"
+            android:label="@string/title_activity_com__arduino" >
+        </activity>
+        <activity
+            android:name="com.example.applicationfinale.Reglages"
+            android:label="@string/title_activity_reglages" >
+        </activity>
+    </application>
+
+</manifest>

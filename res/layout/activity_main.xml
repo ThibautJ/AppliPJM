@@ -1,0 +1,122 @@
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/back">
+    
+  
+    
+    <TextView
+        android:id="@+id/communication"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Communication maison: ............. non"
+        android:textStyle="bold"
+        android:textColor="#FF0000"
+        android:paddingBottom="20dp">
+     
+    </TextView>
+    
+    
+    
+	<Button
+	    android:id="@+id/raccourci"
+		android:layout_width="100sp"
+		android:layout_height="125sp"
+		android:background="@drawable/boutonpower"
+		android:layout_gravity="center_horizontal"
+		android:text="Raccourci"
+		android:paddingTop="100sp"
+		android:textStyle="bold"
+		android:textColor="#1560BD"
+		android:textSize="20sp"
+		/>
+	
+	<TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""/>
+        
+   
+	
+	<Button
+	    android:id="@+id/fonctions"
+	    android:layout_width="75sp"
+		android:layout_height="90sp"
+		android:background="@drawable/boutonfonction"
+		android:layout_gravity="center_horizontal"
+		android:text="Fonctions"
+		android:textStyle="bold"
+		android:paddingTop="70dp"
+		android:textColor="#1560BD" 
+		android:textSize="15sp"
+	    />
+	
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content" >
+	
+  <Button
+        android:id="@+id/securite"
+	    android:layout_width="75sp"
+		android:layout_height="90sp"
+		android:background="@drawable/butoncustom"
+		android:layout_gravity="center_horizontal"
+		android:text="Sécurité"
+		android:paddingTop="72dp"
+		android:textColor="#1560BD" 
+		android:textSize="15sp"
+		android:textStyle="bold"
+		android:layout_marginLeft="50dip"
+		/>
+
+  
+  <Button
+        android:id="@+id/domotique"
+	    android:layout_width="75sp"
+		android:layout_height="90sp"
+		android:background="@drawable/boutonmaison"
+		android:layout_gravity="center_horizontal"
+		android:text="Domotique"
+		android:textStyle="bold"
+		android:paddingTop="70dp"
+		android:textColor="#1560BD" 
+		android:textSize="15sp"
+		android:layout_marginLeft="65dip"
+	    />
+  
+</LinearLayout>
+
+	<Button
+	    android:id="@+id/reglages"
+	    android:layout_width="75sp"
+		android:layout_height="90sp"
+		android:layout_gravity="center_horizontal"
+		android:text="Réglages"
+		android:textColor="#1560BD" 
+		android:textSize="15sp"
+		android:textStyle="bold"
+		android:paddingTop="70dp"
+		android:background="@drawable/boutoncustom"
+	    />	
+	    
+	
+	<TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""/>
+    
+</LinearLayout>
+
+</ScrollView>
+
+
+
+
+
