@@ -30,6 +30,7 @@ public class GestionReseau implements Runnable{
 	private EditText et;
 	private TextView tv;
 	private Runnable edit;
+	private GestionReseau gr;
 	final Handler handler = new Handler();
 	
 			

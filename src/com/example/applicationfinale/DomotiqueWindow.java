@@ -10,6 +10,7 @@ import android.widget.ImageView;
 public class DomotiqueWindow extends Activity {
 
 	private CapteurTOR test;
+	private GestionReseau gr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +19,10 @@ public class DomotiqueWindow extends Activity {
 		
 		test=new CapteurTOR();
 		test.setEtat("1");
+		
+		
+		gr = new GestionReseau();
+		new Thread(gr).start();
 		
 		final Button buttonfonction = (Button) findViewById(R.id.lampe);				
 		buttonfonction.setOnClickListener(new OnClickListener()  {
@@ -45,5 +50,13 @@ public class DomotiqueWindow extends Activity {
 	
 			
 		});
+	}
+
+	public GestionReseau getGr() {
+		return gr;
+	}
+
+	public void setGr(GestionReseau gr) {
+		this.gr = gr;
 	}
 }
