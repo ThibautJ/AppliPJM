@@ -30,7 +30,6 @@ public class GestionReseau implements Runnable{
 	private EditText et;
 	private TextView tv;
 	private Runnable edit;
-	private GestionReseau gr;
 	final Handler handler = new Handler();
 	
 			
@@ -45,6 +44,7 @@ public class GestionReseau implements Runnable{
 		
 		//Définition de la connexion et appel de la socket
 		try {
+			Log.v("moi","début création de socket");
 			InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
 			socket = new Socket(serverAddr, SERVERPORT);
 			Log.v("moi","Socket créée");
@@ -57,7 +57,7 @@ public class GestionReseau implements Runnable{
 		//
 		try {
 			//Création du Reader
-			Log.v("moi","debut");
+			Log.v("moi","debut création du reader");
 			InputStream is = socket.getInputStream();
 			Log.v("moi", "InputStream créé");
 			Reader reader = new InputStreamReader(new BufferedInputStream(is));
@@ -67,7 +67,6 @@ public class GestionReseau implements Runnable{
 			//Edition en temps réel du TextView
 			while(true){
 				str = bReader.readLine();
-				Log.v("Log","Dans while true, c'est après readLine !!!");
 				//editerTexte();
 			}
 		} catch (IOException e) {

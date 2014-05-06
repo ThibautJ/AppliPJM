@@ -2,6 +2,7 @@ package com.example.applicationfinale;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,12 +18,13 @@ public class DomotiqueWindow extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_domotique_window);
 		
-		test=new CapteurTOR();
-		test.setEtat("1");
-		
-		
+		Log.v("moi","debut domotiquewindow");
 		gr = new GestionReseau();
 		new Thread(gr).start();
+		Log.v("moi","le thread est lancé dans domotiquewindow");
+		
+		test=new CapteurTOR(gr);
+		test.setEtat("1");
 		
 		final Button buttonfonction = (Button) findViewById(R.id.lampe);				
 		buttonfonction.setOnClickListener(new OnClickListener()  {

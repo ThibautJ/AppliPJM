@@ -9,13 +9,14 @@ import android.widget.Button;
 public class FonctionWindow extends Activity {
 
 	private CapteurTOR test;
+	private GestionReseau gr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fonction_window);
 		
-		test=new CapteurTOR();
+		test=new CapteurTOR(gr);
 		test.setEtat("1");
 		
 		final Button buttonfonction = (Button) findViewById(R.id.resultLampe);				

@@ -2,7 +2,11 @@ package com.example.applicationfinale;
 
 public class CapteurTOR extends Capteur{
 	protected String etatB;
-	protected GestionReseau gr;
+	protected GestionReseau gR;
+	
+	public CapteurTOR(GestionReseau geR){
+		gR = geR;
+	}
 	
 	
 	protected String getEtat(){
@@ -11,10 +15,10 @@ public class CapteurTOR extends Capteur{
 	public void setEtat(String etatVrai){
 		etatB = etatVrai;
 		if (etatVrai.equals("1")){
-			gr.clicOn();
+			gR.clicOn();
 		}
 		else if(etatVrai.equals("0")){
-			gr.clicOff();
+			gR.clicOff();
 		}
 		
 	}
