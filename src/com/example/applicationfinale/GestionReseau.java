@@ -33,12 +33,8 @@ public class GestionReseau implements Runnable{
 	private Runnable edit;
 	private Lecteur lec;
 	private TextView affichage;
-	private DomotiqueWindow act;
 	final Handler handler = new Handler();
 	
-	public GestionReseau(DomotiqueWindow acti){
-		act = acti;
-	}
 	
 			
 	
@@ -85,7 +81,6 @@ public class GestionReseau implements Runnable{
 				Log.v("moi", "J'ai lu quelquechose");
 				lec.setTab(0, str);
 				Log.v("moi", "Ce quelquechose a été écrit dans le lecteur");
-				act.printUp(str);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
