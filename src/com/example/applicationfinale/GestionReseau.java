@@ -13,7 +13,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -97,12 +96,6 @@ public class GestionReseau implements Runnable{
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
 
 	//Méthode qui se déclenche quand on appuie sur send
 	public void siClic(View view) {
@@ -157,21 +150,7 @@ public class GestionReseau implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	/*
-	//Méthode qui se déclenche quand on appuie sur read
-	public void siClicR(View view){
-		try{
-			//String str = bReader.readLine();
-			//Log.v("moi","C'est arrivé après readLine");
-			tv.setText(str);
-			Log.v("moi","C'est arrivé à la fin de clickR");
-		} catch(Exception ex) {
-			System.out.println("Error creating input stream");
-			Log.v("moi","C'est arrivé à la fin de l'exception clickR");
-		}
-	}
-	*/
-
+	
 	
 	
 	//Socket & Getters
