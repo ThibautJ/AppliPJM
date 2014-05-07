@@ -2,10 +2,9 @@ package com.example.applicationfinale;
 
 public class CapteurTOR extends Capteur{
 	protected String etatB;
-	protected GestionReseau gR;
 	
 	public CapteurTOR(GestionReseau geR){
-		gR = geR;
+		super(geR);
 	}
 	
 	

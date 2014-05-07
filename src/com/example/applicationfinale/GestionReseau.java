@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +31,14 @@ public class GestionReseau implements Runnable{
 	private EditText et;
 	private TextView tv;
 	private Runnable edit;
+	private Lecteur lec;
+	private TextView affichage;
+	private DomotiqueWindow act;
 	final Handler handler = new Handler();
+	
+	public GestionReseau(DomotiqueWindow acti){
+		act = acti;
+	}
 	
 			
 	
@@ -41,6 +49,9 @@ public class GestionReseau implements Runnable{
 		
 		on = "a";
 		off = "b";
+		
+		//Création du Lecteur
+		lec = new Lecteur();
 		
 		//Définition de la connexion et appel de la socket
 		try {
@@ -64,16 +75,23 @@ public class GestionReseau implements Runnable{
 			bReader = new BufferedReader(reader);
 			Log.v("moi", "Le Reader est créé");
 			
-			//Edition en temps réel du TextView
+			//Création du Lecteur
+			lec = new Lecteur();
+			
+			
+			//Edition en temps réel du lecteur
 			while(true){
-				str = bReader.readLine();
-				//editerTexte();
+				String str = bReader.readLine();
+				Log.v("moi", "J'ai lu quelquechose");
+				lec.setTab(0, str);
+				Log.v("moi", "Ce quelquechose a été écrit dans le lecteur");
+				act.printUp(str);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Log.v("moi","Exception dans la main");
-		}			
+		}
 	}
 	
 	
@@ -166,6 +184,14 @@ public class GestionReseau implements Runnable{
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
+
+
+
+	public Lecteur getLec() {
+		return lec;
+	}
+	
+	
 	
 }
 

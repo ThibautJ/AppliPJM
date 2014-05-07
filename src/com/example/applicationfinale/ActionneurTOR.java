@@ -4,6 +4,10 @@ package com.example.applicationfinale;
 public class ActionneurTOR extends Actionneur {
 	private boolean etatB;
 	
+	public ActionneurTOR(GestionReseau geR){
+		super(geR);
+	}
+	
 	public boolean getEtatB(){
 		return etatB;
 	}

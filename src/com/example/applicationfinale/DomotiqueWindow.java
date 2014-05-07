@@ -2,31 +2,54 @@ package com.example.applicationfinale;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class DomotiqueWindow extends Activity {
 
 	private CapteurTOR test;
-	private GestionReseau gr;
+	private GestionReseau gR;
+	private TextView tv;
+	private Runnable edit;
+	private String[] tab;
+	private String str0;
+	final Handler handler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_domotique_window);
+
+		tv = (TextView)findViewById(R.id.communication);
 		
 		Log.v("moi","debut domotiquewindow");
-		gr = new GestionReseau();
-		new Thread(gr).start();
-		Log.v("moi","le thread est lancé dans domotiquewindow");
+		gR = new GestionReseau(this);
+		new Thread(gR).start();
 		
-		test=new CapteurTOR(gr);
+		
+		test=new CapteurTOR(gR);
 		test.setEtat("1");
 		
-		final Button buttonfonction = (Button) findViewById(R.id.lampe);				
+		
+		
+		//Définition du runnable d'édition du TextView
+		edit = new Runnable(){
+			public void run(){
+				tab = gR.getLec().getTab();
+				str0 = tab[0];
+				Log.v("moi", "J'ai lu le lecteur dans le run");
+				tv.setText(str0);
+				Log.v("moi", "J'ai mis a jour le TextView");
+			}
+		};
+		
+		
+		final Button buttonfonction = (Button) findViewById(R.id.lampe);
 		buttonfonction.setOnClickListener(new OnClickListener()  {
 			
 			public void onClick(View v) {
@@ -44,21 +67,21 @@ public class DomotiqueWindow extends Activity {
 			{test.setEtat("1");
 			ImageView Lampe = (ImageView) findViewById(R.id.resultLampe);
 			Lampe.setImageDrawable(getResources().getDrawable(R.drawable.lampeeteinte));}
-			
-			
-			
-	}
-
-	
-			
+			}
 		});
 	}
 
+	//Méthode qui affiche en rouge en haut de l'activity
+	public void printUp(String str0){
+		handler.post(edit);
+	}
+	
+	//Getters et Setters
 	public GestionReseau getGr() {
-		return gr;
+		return gR;
 	}
 
 	public void setGr(GestionReseau gr) {
-		this.gr = gr;
+		this.gR = gr;
 	}
 }
