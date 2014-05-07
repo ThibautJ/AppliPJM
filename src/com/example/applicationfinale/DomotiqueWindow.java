@@ -16,9 +16,6 @@ public class DomotiqueWindow extends Activity {
 	private GestionReseau gR;
 	private TextView tv;
 	private Runnable edit;
-	private Runnable edit1;
-	private String[] tab;
-	private String str0;
 	final Handler handler = new Handler();
 
 	@Override
@@ -29,7 +26,7 @@ public class DomotiqueWindow extends Activity {
 		tv = (TextView)findViewById(R.id.communication);
 		
 		Log.v("moi","debut domotiquewindow");
-		gR = new GestionReseau();
+		gR = new GestionReseau(tv);
 		new Thread(gR).start();
 		
 		
@@ -38,7 +35,7 @@ public class DomotiqueWindow extends Activity {
 		
 		
 		
-		//Définition du runnable d'édition du TextView
+		/*Définition du runnable d'édition du TextView
 		edit1 = new Runnable(){
 			public void run(){
 				tab = gR.getLec().getTab();
@@ -57,7 +54,7 @@ public class DomotiqueWindow extends Activity {
 		};
 		
 		//Lancement du Thread de l'édition de texte
-		new Thread(edit).start();
+		new Thread(edit).start();*/
 		
 		
 		final Button buttonfonction = (Button) findViewById(R.id.lampe);

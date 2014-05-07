@@ -24,20 +24,21 @@ public class GestionReseau implements Runnable{
 	private static final int SERVERPORT = 9999;
 	private static final String SERVER_IP = "192.168.167.102";
 	private Socket socket;
-	private String str;
 	private BufferedReader bReader;
 	private String on;
 	private String off;
 	private EditText et;
 	private TextView tv;
-	private Runnable edit;
 	private Lecteur lec;
-	private TextView affichage;
+	private String[] tab;
+	private String str0;
 	final Handler handler = new Handler();
 	
 	
 			
-	
+	public GestionReseau(TextView tV){
+		tv = tV;
+	}
 	
 	
 	@Override
@@ -45,7 +46,7 @@ public class GestionReseau implements Runnable{
 		
 		on = "a";
 		off = "b";
-		
+
 		//Création du Lecteur
 		lec = new Lecteur();
 		
@@ -81,6 +82,13 @@ public class GestionReseau implements Runnable{
 				Log.v("moi", "J'ai lu quelquechose");
 				lec.setTab(0, str);
 				Log.v("moi", "Ce quelquechose a été écrit dans le lecteur");
+				tv.post(new Runnable(){
+					public void run(){
+						tab = getLec().getTab();
+						str0 = tab[0];
+						tv.setText(str0);
+					}
+				});
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
