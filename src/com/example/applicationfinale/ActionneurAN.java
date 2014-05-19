@@ -3,6 +3,7 @@ package com.example.applicationfinale;
 
 public class ActionneurAN extends Actionneur {
 	protected int etatI;
+	public static int[] listActionneurAN;
 	
 	public ActionneurAN(GestionReseau geR){
 		super(geR);

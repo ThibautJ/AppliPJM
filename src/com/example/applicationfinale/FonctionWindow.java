@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class FonctionWindow extends Activity {
 
-	private CapteurTOR test;
+	private ActionneurTOR lampeTest;
 	private GestionReseau gr;
 
 	@Override
@@ -16,8 +16,8 @@ public class FonctionWindow extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fonction_window);
 		
-		test=new CapteurTOR(gr);
-		test.setEtat("1");
+		lampeTest = new ActionneurTOR(gr);
+		lampeTest.setEtatB(true);
 		
 		final Button buttonfonction = (Button) findViewById(R.id.resultLampe);				
 		buttonfonction.setOnClickListener(new OnClickListener()  {
@@ -25,15 +25,16 @@ public class FonctionWindow extends Activity {
 			public void onClick(View v) {
 			
 			
-			String etat;
-			etat=test.getEtat();
+			boolean etat;
+			etat = lampeTest.getEtatB();
 			System.out.println(etat);
 		
-			if (etat.equals("1"))
-			{test.setEtat("0");}
-			else if (etat.equals("0"))
-			{test.setEtat("1");}
-			
+			if (etat){
+			lampeTest.setEtatB(false);
+			}
+			else {
+				lampeTest.setEtatB(true);
+			}			
 	}
 
 	

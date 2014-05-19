@@ -2,11 +2,11 @@ package com.example.applicationfinale;
 
 public class Lecteur {
 	protected String[] tab;
-	
+
 	public Lecteur(){
 		tab = new String[5];
 	}
-	
+
 	public Lecteur(int a){
 		tab = new String[a];
 	}
