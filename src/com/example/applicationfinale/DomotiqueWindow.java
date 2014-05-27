@@ -26,8 +26,9 @@ public class DomotiqueWindow extends Activity {
 		
 		setContentView(R.layout.activity_domotique_window);
 		
-		layout = (LinearLayout)findViewById(R.id.layout_activity_window);
+		layout = (LinearLayout)findViewById(R.id.layout_activity_window_bis);
 		tv = (TextView)findViewById(R.id.communication);
+		
 		
 		gR = new GestionReseau(this);
 		new Thread(gR).start();
@@ -76,6 +77,11 @@ public class DomotiqueWindow extends Activity {
 
 	public LinearLayout getLayout() {
 		return layout;
+	}
+	
+
+	public void setLayout(LinearLayout layout) {
+		this.layout = layout;
 	}
 
 	public TextView getTv() {

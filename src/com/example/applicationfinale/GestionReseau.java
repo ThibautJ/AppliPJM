@@ -37,25 +37,28 @@ public class GestionReseau implements Runnable{
 	private Lecteur lec;
 	private String[] tab;
 	private String str0;
+	private String str;
 	private DomotiqueWindow act;
 	final Handler handler = new Handler();
 	private LinearLayout layout;
-	
-	
-	
+	private int i;
+
+
+
 	public GestionReseau(DomotiqueWindow ac){
 		act = ac;
 	}
-	
+
 
 	@Override
 	public void run() {
 
 		on = "a";
 		off = "b";
-		b = true;
-		
-		
+		b = false;
+		i = 0;
+
+
 
 		//Définition de la connexion et appel de la socket
 		try {
@@ -72,13 +75,13 @@ public class GestionReseau implements Runnable{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		//Import du layout
 		layout = act.getLayout();
 		//Import du TextView
 		tv = act.getTv();
 
-		
+
 		try {
 			//Création du Reader
 			Log.v("moi","debut création du reader");
@@ -88,27 +91,28 @@ public class GestionReseau implements Runnable{
 			bReader = new BufferedReader(reader);
 			Log.v("moi", "Le Reader est créé");
 
-			//Création du Lecteur
-			lec = new Lecteur();
-			
 
-			
+
 			//POURQUOI NE PAS METTRE LA SUITE DANS UN RUNNABLE ET LANCER CE RUNNABLE DANS UN THREAD???
 			//Edition en temps réel du lecteur
 			while(true){
-				String str = bReader.readLine();
+				str = bReader.readLine();
 				Log.v("moi", "J'ai lu quelquechose");
-				lec.setTab(0, str);
-				Log.v("moi", "Ce quelquechose a été écrit dans le lecteur");
-				tv.post(new Runnable(){
+				//lec.setTab(i, str);
+				//Log.v("moi", "Ce quelquechose a été écrit dans le lecteur");
+				
+				//Changement du tv
+				layout.post(new Runnable(){
 					public void run(){
-						tab = getLec().getTab();
-						str0 = tab[0];
-						act.setTextCommunication(str0);
-						Log.v("moi", "setTextCommunication effectué");
+						//Exécution du reading
+						Log.v("moi", "Début du runnable");
+						translate(str);
+						Log.v("moi", "Le reading a été éffectué");
 					}
 				});
-				//reading(lec,str);
+				Thread.sleep(20);
+				
+					
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -116,8 +120,11 @@ public class GestionReseau implements Runnable{
 			Log.v("moi","Exception dans la main");
 		} catch (NullPointerException e){
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
+
 	}
 
 
@@ -174,33 +181,46 @@ public class GestionReseau implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
-	public void reading(Lecteur lec, String str){
-		final int c;
-		final char type;
+
+	public void translate(String str){
 		final int number;
-		final int indexOfLastChar;
+		final int index1;
+		final int index2;
+		final int index3;
+		final String type;
+		final String typeBis;
 		final String name;
 		final String order;
 
-		
-		c = 6;
-		type = str.charAt(2);
-		indexOfLastChar = str.indexOf(')');
-		
-		if (type == 't'){
-			//Si c'est un TOR
-			number = str.charAt(6);
-			name = "TOR " + number;
-			order = str.substring(8,indexOfLastChar);
-			lec.setTab(number,str);
-			if (order.equals("setInit")){
-				//ajout bouton				
-				new ActionneurTOR(this,number,name);
+
+		index1 = str.indexOf(';');
+		index2 = str.indexOf(';', index1 + 1);
+		index3 = str.indexOf(';', index2 + 1);
+		type = str.substring(1, index1);
+		number = Integer.parseInt(str.substring(index1 + 1, index2));
+		order = str.substring(index2 + 1,index3);
+		typeBis = str.substring(index3 + 1,str.length() - 1);
+
+		if (type.equals("tor")){
+			if (typeBis.equals("output")){
+				Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);
+				//Si c'est un ActionneurTOR
+				name = "ActionneurTOR " + number;
+				if (order.equals("setInit")){
+					Log.v("moi", "Tentative d'ajout de bouton");
+					//ajout bouton				
+					new ActionneurTOR(this,number,name);
+				}
+			}
+			else{
+				Log.v("moi","Type bis différent de output. TypeBis = " + typeBis);
 			}
 		}
+		else{
+			Log.v("moi", "Dans reading, type différent de tor. Type =  " + type);
+		}
 	}
-	
+
 
 	//Socket & Getters
 
@@ -229,9 +249,6 @@ public class GestionReseau implements Runnable{
 	public LinearLayout getLayout() {
 		return layout;
 	}
-	
-	
-
 }
 
 
