@@ -118,7 +118,7 @@ public class GestionReseau implements Runnable{
 			while(true){
 				while(attente==false){
 					str = bReader.readLine();
-					Log.v("moi", "Instruction reçu");
+					Log.v("moi", "Instruction reçu : " + str);
 					attente = true;
 
 					//Changement des boutons
@@ -181,10 +181,8 @@ public class GestionReseau implements Runnable{
 		String name;
 		final String order;
 		final String etat;
-		int o;
 
 
-		o = 0;
 		index1 = str.indexOf(';');
 		index2 = str.indexOf(';', index1 + 1);
 		index3 = str.indexOf(';', index2 + 1);
@@ -193,23 +191,66 @@ public class GestionReseau implements Runnable{
 		order = str.substring(index2 + 1,index3);
 		typeBis = null;
 		name = null;
-		
-		
+
+
 		//L'initialisation des éléments
-				if(order.equals("setInit")){
-					o = 1;
-					index4 = str.indexOf(';', index3 + 1);
-					typeBis = str.substring(index3 + 1,index4);
-					name = str.substring(index4 + 1, str.length() - 1);
-					
-				}
-		//Pour une mise à jour de l'état		
-				else if(order.equals("etat")){
-					o = 2;
-					etat = str.substring(index3 + 1, str.length() - 1);
+		if(order.equals("setInit")){
+			index4 = str.indexOf(';', index3 + 1);
+			typeBis = str.substring(index3 + 1,index4);
+			name = str.substring(index4 + 1, str.length() - 1);
+			//Début modif
+			if(type.equals("tor")){
+				if (typeBis.equals("output")){
+					//Si c'est un ActionneurTOR	
+					Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);		
+					new ActionneurTOR(this,number,name);
 				}
 
-		if(type.equals("tor")){
+				else if (typeBis.equals("input")){
+					//Si c'est un CapteurTOR
+					Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);			
+					new CapteurTOR(this,number,name);
+				}
+			}
+			else if (type.equals("analogique")){
+				if (typeBis.equals("output")){
+					//Si c'est un ActionneurAN
+					Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);		
+					new ActionneurAN(this,number,name);	
+				}
+				else if (typeBis.equals("input")){
+					//Si c'est un CapteurAN
+					Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);
+					new CapteurAN(this,number,name);
+				}
+			}
+		}
+		//fin modif
+		//Pour une mise à jour de l'état		
+				else if(order.equals("etat")){
+					etat = str.substring(index3 + 1, str.length() - 1);
+					Element[] liste = Element.liste;
+					if(type.equals("tor")){
+						Boolean b;
+						if(etat.equals("1")){
+							b = true;
+						}
+						else{
+							b = false;
+						}
+						if (liste[number] instanceof ActionneurTOR){
+							((ActionneurTOR)liste[number]).setEtatB(b);
+						}
+						else if (liste[number] instanceof CapteurTOR){
+							((CapteurTOR)liste[number]).setEtatB(b);
+						}
+					}
+					else if (type.equals("analogique")){
+						//A écrire
+					}
+				}
+
+		/*if(type.equals("tor")){
 			if (typeBis.equals("output")){
 				Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);
 				//Si c'est un ActionneurTOR
@@ -285,7 +326,7 @@ public class GestionReseau implements Runnable{
 					break;
 				}
 			}
-		}	
+		}*/	
 	}
 
 

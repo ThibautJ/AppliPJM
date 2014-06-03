@@ -46,15 +46,13 @@ public class ActionneurTOR extends Actionneur {
 				boolean etat;
 				etat = etatB;
 				System.out.println(etat);
-				
-
 				if (etat){
 					ActionneurTOR.this.eteindre();
-					lampe.setImageDrawable(activity.getResources().getDrawable(R.drawable.lampeeteinte));
+					//lampe.setImageDrawable(activity.getResources().getDrawable(R.drawable.lampeeteinte));
 				}
 				else {
 					ActionneurTOR.this.allumer();
-					lampe.setImageDrawable(activity.getResources().getDrawable(R.drawable.lampeallumee));
+					//lampe.setImageDrawable(activity.getResources().getDrawable(R.drawable.lampeallumee));
 				}
 			}
 		});
@@ -73,6 +71,12 @@ public class ActionneurTOR extends Actionneur {
 	
 	public void setEtatB(boolean etatVrai){
 		etatB = etatVrai;
+		if (etatB){
+			lampe.setImageDrawable(activity.getResources().getDrawable(R.drawable.lampeallumee));
+		}
+		else {
+			lampe.setImageDrawable(activity.getResources().getDrawable(R.drawable.lampeeteinte));
+		}
 	}
 	
 	

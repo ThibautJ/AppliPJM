@@ -52,7 +52,7 @@ public class CapteurTOR extends Capteur{
 	public void setEtatB(boolean etatB) {
 		this.etatB = etatB;
 		if (etatB){
-			check.setImageDrawable(activity.getResources().getDrawable(R.drawable.power));
+			check.setImageDrawable(activity.getResources().getDrawable(R.drawable.valide));
 		}
 		else{
 			check.setImageDrawable(activity.getResources().getDrawable(R.drawable.refuse));

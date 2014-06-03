@@ -8,8 +8,12 @@ public abstract class Element {
 	public static Element[] liste;
 	protected int nombre;
 	
-	public Element(GestionReseau geR, int nombre){
+	public Element(GestionReseau geR, int number){
+		if (liste == null){
+			liste = new Element[15];
+		}
 		gR = geR;
+		nombre = number;
 		liste[nombre] = this;
 	}
 	
