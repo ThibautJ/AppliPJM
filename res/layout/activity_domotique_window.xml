@@ -10,42 +10,59 @@
         android:id="@+id/communication"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="85dp"
         android:paddingBottom="20dp"
         android:text="Attente Réception"
         android:textColor="#FF0000"
         android:textStyle="bold" >
     </TextView>
-    
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_activity_window_bis"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/back"
-    android:orientation="vertical" >
-    </LinearLayout>
+
+    <TextView
+        android:id="@+id/communication"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:paddingBottom="20dp"
+        android:text="Actionneur"
+        android:textColor="#800000"
+        android:textStyle="bold" >
+    </TextView>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_activity_window_act"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/back"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/lampe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Allumer lampe" />
-
-        <ImageView
-            android:id="@+id/resultLampe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dip"
-            android:text="Porte"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+        android:orientation="vertical" >
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/communication"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:paddingBottom="20dp"
+        android:text="Capteur"
+        android:textColor="#800000"
+        android:textStyle="bold" >
+    </TextView>
 
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layout_activity_window_capt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/rien"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:paddingBottom="20dp"
+        android:text=""
+        android:textColor="#800000"
+        android:textStyle="bold" >
+    </TextView>
 </LinearLayout>

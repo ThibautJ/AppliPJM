@@ -5,9 +5,12 @@ public abstract class Element {
 	protected boolean connecte;
 	protected String piece;
 	protected GestionReseau gR;
+	public static Element[] liste;
+	protected int nombre;
 	
-	public Element(GestionReseau geR){
+	public Element(GestionReseau geR, int nombre){
 		gR = geR;
+		liste[nombre] = this;
 	}
 	
 	

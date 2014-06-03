@@ -29,17 +29,21 @@ public final class R {
         public static final int butoncustom=0x7f020005;
         public static final int cadenas=0x7f020006;
         public static final int cadenas2=0x7f020007;
-        public static final int dude=0x7f020008;
-        public static final int engrenagefinal=0x7f020009;
-        public static final int ic_launcher=0x7f02000a;
-        public static final int lampeallumee=0x7f02000b;
-        public static final int lampeeteinte=0x7f02000c;
-        public static final int liste=0x7f02000d;
-        public static final int maison=0x7f02000e;
-        public static final int power=0x7f02000f;
-        public static final int refuse=0x7f020010;
-        public static final int round_button=0x7f020011;
-        public static final int valide=0x7f020012;
+        public static final int descendrevolets=0x7f020008;
+        public static final int dude=0x7f020009;
+        public static final int engrenagefinal=0x7f02000a;
+        public static final int ic_launcher=0x7f02000b;
+        public static final int lampeallumee=0x7f02000c;
+        public static final int lampeeteinte=0x7f02000d;
+        public static final int liste=0x7f02000e;
+        public static final int maison=0x7f02000f;
+        public static final int montervolets=0x7f020010;
+        public static final int portefermee=0x7f020011;
+        public static final int porteouverte=0x7f020012;
+        public static final int power=0x7f020013;
+        public static final int refuse=0x7f020014;
+        public static final int round_button=0x7f020015;
+        public static final int valide=0x7f020016;
     }
     public static final class id {
         public static final int action_settings=0x7f080012;
@@ -50,16 +54,16 @@ public final class R {
         public static final int fonction1=0x7f080005;
         public static final int fonction2=0x7f080007;
         public static final int fonctions=0x7f08000a;
-        public static final int lampe=0x7f080003;
         public static final int layout_activity_window=0x7f080000;
-        public static final int layout_activity_window_bis=0x7f080002;
+        public static final int layout_activity_window_act=0x7f080002;
+        public static final int layout_activity_window_capt=0x7f080003;
         public static final int porte=0x7f08000f;
         public static final int porteicone=0x7f08000e;
         public static final int raccourci=0x7f080009;
         public static final int radio1=0x7f080006;
         public static final int radio2=0x7f080008;
         public static final int reglages=0x7f08000d;
-        public static final int resultLampe=0x7f080004;
+        public static final int rien=0x7f080004;
         public static final int securite=0x7f08000b;
     }
     public static final class layout {

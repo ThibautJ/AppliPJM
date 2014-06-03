@@ -13,15 +13,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class GestionReseau implements Runnable{
@@ -29,19 +25,16 @@ public class GestionReseau implements Runnable{
 	private static final String SERVER_IP = "192.168.167.102";
 	private Socket socket;
 	private BufferedReader bReader;
-	private String on;
-	private String off;
-	private boolean b;
 	private EditText et;
-	private TextView tv;
 	private Lecteur lec;
-	private String[] tab;
-	private String str0;
 	private String str;
 	private DomotiqueWindow act;
+	private boolean attente;
 	final Handler handler = new Handler();
+	private LinearLayout layoutAct;
+	private LinearLayout layoutCapt;
 	private LinearLayout layout;
-	private int i;
+	private TextView tv;
 
 
 
@@ -53,10 +46,8 @@ public class GestionReseau implements Runnable{
 	@Override
 	public void run() {
 
-		on = "a";
-		off = "b";
-		b = false;
-		i = 0;
+		
+		tv = (TextView) act.findViewById(R.id.communication);
 
 
 
@@ -66,20 +57,28 @@ public class GestionReseau implements Runnable{
 			InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
 			socket = new Socket(serverAddr, SERVERPORT);
 			Log.v("moi","Socket créée");
+			tv.post(new Runnable(){
+				public void run(){
+					tv.setText("");
+				}
+			});
 		} catch (UnknownHostException e1) {
-			//Si le socket ne s'est pas créé, alors il y a cette exception
 			Log.v("moi","Problème de connexion");
-			act.setTextCommunication("Problème de connexion");
-			act.finish();
-			b = false;
+			e1.printStackTrace();
 		} catch (IOException e1) {
+			Log.v("moi","Problème de connexion");
+			tv.post(new Runnable(){
+				public void run(){
+					tv.setText("Problème de connexion");
+				}
+			});
 			e1.printStackTrace();
 		}
 
 		//Import du layout
+		layoutAct = act.getLayoutAct();
+		layoutCapt = act.getLayoutCapt();
 		layout = act.getLayout();
-		//Import du TextView
-		tv = act.getTv();
 
 
 		try {
@@ -90,29 +89,51 @@ public class GestionReseau implements Runnable{
 			Reader reader = new InputStreamReader(new BufferedInputStream(is));
 			bReader = new BufferedReader(reader);
 			Log.v("moi", "Le Reader est créé");
+			//Thread pour recevoir en continu l'état des capteurs
+			new Thread(new Runnable(){
+				public void run(){
+					try {
+						while(true){
+						PrintWriter out = new PrintWriter(new BufferedWriter(
+								new OutputStreamWriter(socket.getOutputStream())),
+								true);
+						out.println("(all;getEtat)");
+						Thread.sleep(15000);
+						}
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+					).start();
 
 
 
 			//POURQUOI NE PAS METTRE LA SUITE DANS UN RUNNABLE ET LANCER CE RUNNABLE DANS UN THREAD???
 			//Edition en temps réel du lecteur
 			while(true){
-				str = bReader.readLine();
-				Log.v("moi", "J'ai lu quelquechose");
-				//lec.setTab(i, str);
-				//Log.v("moi", "Ce quelquechose a été écrit dans le lecteur");
-				
-				//Changement du tv
-				layout.post(new Runnable(){
-					public void run(){
-						//Exécution du reading
-						Log.v("moi", "Début du runnable");
-						translate(str);
-						Log.v("moi", "Le reading a été éffectué");
-					}
-				});
-				Thread.sleep(20);
-				
-					
+				while(attente==false){
+					str = bReader.readLine();
+					Log.v("moi", "Instruction reçu");
+					attente = true;
+
+					//Changement des boutons
+					layout.post(new Runnable(){
+						public void run(){
+							//Exécution du translate
+							Log.v("moi", "Début de la lecture de l'instruction");
+							translate(str);
+							Log.v("moi", "La lecture a été effectuée");
+							attente = false;
+						}
+					});
+					Thread.sleep(20);
+				}			
+
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -147,78 +168,124 @@ public class GestionReseau implements Runnable{
 	}
 
 
-	//Méthode de on
-	public void clicOn(){
-		try {
-			PrintWriter out = new PrintWriter(new BufferedWriter(
-					new OutputStreamWriter(socket.getOutputStream())),
-					true);
-			out.println(on);
-			Log.v("moi", "LED allumée");
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	//Méthode de off
-
-	public void clicOff(){
-		try {
-			PrintWriter out = new PrintWriter(new BufferedWriter(
-					new OutputStreamWriter(socket.getOutputStream())),
-					true);
-			out.println(off);
-			Log.v("moi", "Led éteinte");
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	public void translate(String str){
 		final int number;
 		final int index1;
 		final int index2;
 		final int index3;
+		final int index4;
+		
 		final String type;
-		final String typeBis;
-		final String name;
+		String typeBis;
+		String name;
 		final String order;
+		final String etat;
+		int o;
 
 
+		o = 0;
 		index1 = str.indexOf(';');
 		index2 = str.indexOf(';', index1 + 1);
 		index3 = str.indexOf(';', index2 + 1);
 		type = str.substring(1, index1);
 		number = Integer.parseInt(str.substring(index1 + 1, index2));
 		order = str.substring(index2 + 1,index3);
-		typeBis = str.substring(index3 + 1,str.length() - 1);
+		typeBis = null;
+		name = null;
+		
+		
+		//L'initialisation des éléments
+				if(order.equals("setInit")){
+					o = 1;
+					index4 = str.indexOf(';', index3 + 1);
+					typeBis = str.substring(index3 + 1,index4);
+					name = str.substring(index4 + 1, str.length() - 1);
+					
+				}
+		//Pour une mise à jour de l'état		
+				else if(order.equals("etat")){
+					o = 2;
+					etat = str.substring(index3 + 1, str.length() - 1);
+				}
 
-		if (type.equals("tor")){
+		if(type.equals("tor")){
 			if (typeBis.equals("output")){
 				Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);
 				//Si c'est un ActionneurTOR
-				name = "ActionneurTOR " + number;
-				if (order.equals("setInit")){
-					Log.v("moi", "Tentative d'ajout de bouton");
+				switch(o){
+				case 1 :
+					Log.v("moi", "Tentative d'ajout de bouton d'actTOR");
 					//ajout bouton				
 					new ActionneurTOR(this,number,name);
+					break;
+				case 2 :
+					Boolean b = Boolean.valueOf(name);
+					Log.v("moi", "Réception de l'état de l'actTOR");
+					Element[] liste = ActionneurTOR.liste;
+					//liste[number].setEtatB(b);
+				default:
+					Log.v("moi", "Ordre intraduisible : " + order);
+					break;
 				}
 			}
-			else{
-				Log.v("moi","Type bis différent de output. TypeBis = " + typeBis);
+			else if (typeBis.equals("input")){
+				Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);
+				//Si c'est un CapteurTOR
+				switch(o){
+				case 1 :
+					Log.v("moi", "Tentative d'ajout de bouton de capteurTOR");
+					//ajout bouton				
+					new CapteurTOR(this,number,name);
+					break;
+				case 2 :
+					Boolean b;
+					if(name.equals("1")){
+						b = true;
+					}
+					else{
+						b = false;
+					}
+					Log.v("moi", "Réception de l'état de l'actTOR");
+					//CapteurTOR[] liste = CapteurTOR.listCapteurTOR;
+					//liste[number].setEtatB(b);
+					break;
+				default:
+					Log.v("moi", "Ordre intraduisible : " + order);
+					break;
+				}
 			}
 		}
-		else{
-			Log.v("moi", "Dans reading, type différent de tor. Type =  " + type);
-		}
+		else if (type.equals("analogique")){
+			if (typeBis.equals("output")){
+				Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);
+				//Si c'est un ActionneurAN
+				switch(o){
+				case 1 :
+					Log.v("moi", "Tentative d'ajout de bouton de Actionneur AN");
+					//ajout bouton				
+					new ActionneurAN(this,number,name);
+					break;
+				default:
+					Log.v("moi", "Ordre intraduisible : " + order);
+					break;
+				}
+			}
+			else if (typeBis.equals("input")){
+				Log.v("moi", "type = "+ type + " number = " + number + " typeBis = " + typeBis);
+				//Si c'est un CapteurAN
+				switch(o){
+				case 1 :
+					Log.v("moi", "Tentative d'ajout de bouton de capteurAN");
+					//ajout bouton				
+					new CapteurAN(this,number,name);
+					break;
+				default:
+					Log.v("moi", "Ordre intraduisible : " + order);
+					break;
+				}
+			}
+		}	
 	}
 
 
@@ -249,6 +316,33 @@ public class GestionReseau implements Runnable{
 	public LinearLayout getLayout() {
 		return layout;
 	}
+
+
+	public LinearLayout getLayoutAct() {
+		return layoutAct;
+	}
+
+
+	public void setLayoutAct(LinearLayout layoutAct) {
+		this.layoutAct = layoutAct;
+	}
+
+
+	public LinearLayout getLayoutCapt() {
+		return layoutCapt;
+	}
+
+
+	public void setLayoutCapt(LinearLayout layoutCapt) {
+		this.layoutCapt = layoutCapt;
+	}
+
+
+	public void setLayout(LinearLayout layout) {
+		this.layout = layout;
+	}
+	
+	
 }
 
 
